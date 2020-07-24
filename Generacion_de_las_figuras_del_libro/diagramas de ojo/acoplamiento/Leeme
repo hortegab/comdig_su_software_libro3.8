@@ -1,0 +1,18 @@
+PREREQUISITOS:
+Para correr exitosamente esta aplicación es necesario que previamente:
+1. Tener instalado python2.7
+2. haya realizado la instalación de la libreria de python para diagramas de ojo. En el siguiente enlace lo puede bajar, allí hay un instructivo para instalarlo y probarlo: https://github.com/hortegab/Diagrama-de-ojo-Comunicaciones-II.git
+
+PROCEDIMIENTO PARA OBTENER DIAGRAMA DE OJO PARA FILTROS DE WAVE FORMING:
+1. Mediante gnuradio abra : VariosWaveForm.grc. Configure en los bloques File Sink las rutas correctas a los archivos correspondientes. En esos bloques aparecen los nombres de esos archivos, pero en su computador, pueden estar alojados en otra parte.
+2. Corra el flujograma por unos 30 segundos para permitir que se alimenten de datos los archivos Senal_RC_RC, Senal_RRC_RRC.
+3. Puede cerrar gnuradio para trabajar ahora por terminal de Ubunto: Mediante python corra el archivo Graficar_Ojo.py asi: 
+   python Graficar_Ojo_WaveForm.py
+Nota: Si tiene varias versiones de python, quizá necesites escribir así:
+   python2 Graficar_Ojo_WaveForm.py
+
+PROCEDIMIENTO PARA OBTENER DIAGRAMA DE OJO PARA FILTROS DE ACOPLAMIENTO:
+Todo lo mismo, solo que:
+1. En gnuradio se trabaja con VariosAcoplam.grc
+2. En el terminal de ubuntu se corre
+python2 Graficar_Ojo_Acoplamiento.py

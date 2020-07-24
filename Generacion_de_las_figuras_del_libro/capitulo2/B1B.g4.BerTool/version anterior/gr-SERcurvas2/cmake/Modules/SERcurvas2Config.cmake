@@ -1,0 +1,30 @@
+INCLUDE(FindPkgConfig)
+PKG_CHECK_MODULES(PC_SERCURVAS2 SERcurvas2)
+
+FIND_PATH(
+    SERCURVAS2_INCLUDE_DIRS
+    NAMES SERcurvas2/api.h
+    HINTS $ENV{SERCURVAS2_DIR}/include
+        ${PC_SERCURVAS2_INCLUDEDIR}
+    PATHS ${CMAKE_INSTALL_PREFIX}/include
+          /usr/local/include
+          /usr/include
+)
+
+FIND_LIBRARY(
+    SERCURVAS2_LIBRARIES
+    NAMES gnuradio-SERcurvas2
+    HINTS $ENV{SERCURVAS2_DIR}/lib
+        ${PC_SERCURVAS2_LIBDIR}
+    PATHS ${CMAKE_INSTALL_PREFIX}/lib
+          ${CMAKE_INSTALL_PREFIX}/lib64
+          /usr/local/lib
+          /usr/local/lib64
+          /usr/lib
+          /usr/lib64
+)
+
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(SERCURVAS2 DEFAULT_MSG SERCURVAS2_LIBRARIES SERCURVAS2_INCLUDE_DIRS)
+MARK_AS_ADVANCED(SERCURVAS2_LIBRARIES SERCURVAS2_INCLUDE_DIRS)
+

@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='utf-8'?>
+<?grc format='1' created='3.7.10'?>
+<flow_graph>
+  <timestamp>Sun Apr 22 20:57:51 2018</timestamp>
+  <block>
+    <key>options</key>
+    <param>
+      <key>author</key>
+      <value>EPGH</value>
+    </param>
+    <param>
+      <key>window_size</key>
+      <value></value>
+    </param>
+    <param>
+      <key>category</key>
+      <value>[GRC Hier Blocks]</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>description</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(8, 8)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>generate_options</key>
+      <value>hb</value>
+    </param>
+    <param>
+      <key>hier_block_src_path</key>
+      <value>.:</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>phase</value>
+    </param>
+    <param>
+      <key>max_nouts</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>qt_qss_theme</key>
+      <value></value>
+    </param>
+    <param>
+      <key>realtime_scheduling</key>
+      <value></value>
+    </param>
+    <param>
+      <key>run_command</key>
+      <value>{python} -u {filename}</value>
+    </param>
+    <param>
+      <key>run_options</key>
+      <value>prompt</value>
+    </param>
+    <param>
+      <key>run</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>thread_safe_setters</key>
+      <value></value>
+    </param>
+    <param>
+      <key>title</key>
+      <value>phase</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(400, 48)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>Lf_Bandwidth</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Lf_Bandwidth</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0.002</value>
+    </param>
+  </block>
+  <block>
+    <key>epy_block</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_io_cache</key>
+      <value>('phase_h', 'blk', [('lf_bandwidth', '0.002')], [('0', 'complex')], [('0', 'complex')], '', ['lf_bandwidth'])</value>
+    </param>
+    <param>
+      <key>_source_code</key>
+      <value>
+#SE IMPORTAN LAS LIBRERIAS NECESARIAS PARA PODER IMPLEMENTAR EL PLL
+
+import numpy as np
+import pdb
+from gnuradio import gr
+
+
+class blk(gr.sync_block):
+
+    def __init__(self, lf_bandwidth=0.002):  # SE DECLARAN LOS ARGUMENTOS DE LA ENTRADA
+        
+        gr.sync_block.__init__(
+            self,
+            name='phase_h',   # will show up in GRC
+            in_sig=[np.complex64],
+            out_sig=[np.complex64]
+        )
+        #LOS ATRIBUTOS POR DEFECTO
+	self.phase_out = 0.0
+	self.freq_out = 0.0
+	self.vco = np.exp(1j*self.phase_out)
+	self.phase_difference = 0.0
+        self.bw = lf_bandwidth
+        self.beta = np.sqrt(lf_bandwidth)        
+        self.lf_bandwidth = lf_bandwidth
+		
+    def update_phase_estimate(self):
+        self.vco = np.exp(1j*self.phase_out)
+
+    def update_phase_difference(self, in_sig):
+        self.phase_difference = np.angle(in_sig*np.conj(self.vco))
+
+    def step(self, in_sig):
+	#TOMA LA MUESTRA INSTANTANEA DE LA SENAL, AL ESTADO DEL PLL        
+        self.update_phase_difference(in_sig)
+        self.freq_out += self.bw * self.phase_difference
+        self.phase_out += self.beta * self.phase_difference + self.freq_out
+        self.update_phase_estimate()
+
+##############################
+
+    def work(self, input_items, output_items):
+    
+  	self.step(input_items[0])
+	output_items[0][:] = self.vco
+ 	return len(output_items)
+
+
+
+
+
+
+
+
+
+</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(464, 164)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>epy_block_0</value>
+    </param>
+    <param>
+      <key>lf_bandwidth</key>
+      <value>Lf_Bandwidth</value>
+    </param>
+  </block>
+  <block>
+    <key>pad_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(640, 164)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pad_sink_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>out</value>
+    </param>
+    <param>
+      <key>num_streams</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>optional</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>pad_source</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(312, 164)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pad_source_0</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>in</value>
+    </param>
+    <param>
+      <key>num_streams</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>optional</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <connection>
+    <source_block_id>epy_block_0</source_block_id>
+    <sink_block_id>pad_sink_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>pad_source_0</source_block_id>
+    <sink_block_id>epy_block_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+</flow_graph>

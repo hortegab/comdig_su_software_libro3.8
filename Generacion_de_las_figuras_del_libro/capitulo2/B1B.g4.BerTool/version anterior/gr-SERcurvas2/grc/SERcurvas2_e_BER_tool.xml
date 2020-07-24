@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<block>
+  <name>e_BER_tool</name>
+  <key>SERcurvas2_e_BER_tool</key>
+  <category>[SERcurvas2]</category>
+  <import>import SERcurvas2</import>
+  <make>SERcurvas2.e_BER_tool($N)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>N</name>
+    <key>N</key>
+    <type>int</type>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>in0</name>
+    <type>int</type>
+    
+  </sink>
+
+ <sink>
+    <name>in1</name>
+    <type>byte</type>
+  </sink>
+
+ <sink>
+    <name>in2</name>
+    <type>byte</type>
+  </sink>
+
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>out0</name>
+    <type>float</type>
+  </source>
+</block>
