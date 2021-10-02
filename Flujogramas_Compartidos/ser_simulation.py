@@ -22,24 +22,28 @@ if __name__ == '__main__':
         except:
             print("Warning: failed to XInitThreads()")
 
-import os
-import sys
-sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
-
 from PyQt5 import Qt
 from gnuradio import qtgui
 import sip
-from b_BERTool import b_BERTool  # grc-generated hier_block
 from gnuradio import blocks
 import numpy
 from gnuradio import digital
 from gnuradio import gr
 from gnuradio.filter import firdes
 from gnuradio.fft import window
+import sys
 import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
+import epy_block_0
+import epy_block_0_0
+import epy_block_0_0_0
+import epy_block_0_0_0_0
+import epy_block_1_3
+import epy_block_1_3_0
+import epy_block_1_3_0_0
+import epy_block_1_3_1
 import math
 import numpy as np
 
@@ -95,7 +99,7 @@ class ser_simulation(gr.top_block, Qt.QWidget):
         self.M0 = M0 = len(const0)
         self.run_stop = run_stop = True
         self.Rs = Rs = samp_rate/Sps
-        self.N_snr = N_snr = 128
+        self.N_snr = N_snr = 32
         self.MiconstellationObject3 = MiconstellationObject3 = digital.constellation_calcdist(const3, np.arange(M3),
         4, 1, digital.constellation.AMPLITUDE_NORMALIZATION).base()
         self.MiconstellationObject2 = MiconstellationObject2 = digital.constellation_calcdist(const2, np.arange(M2),
@@ -165,6 +169,14 @@ class ser_simulation(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(0, 1):
             self.top_grid_layout.setColumnStretch(c, 1)
+        self.epy_block_1_3_1 = epy_block_1_3_1.blk(N=32)
+        self.epy_block_1_3_0_0 = epy_block_1_3_0_0.blk(N=32)
+        self.epy_block_1_3_0 = epy_block_1_3_0.blk(N=32)
+        self.epy_block_1_3 = epy_block_1_3.blk(N=32)
+        self.epy_block_0_0_0_0 = epy_block_0_0_0_0.blk(N=N_snr, EsN0min=EsN0min, EsN0max=EsN0max, Sps=Sps, Rs=Rs)
+        self.epy_block_0_0_0 = epy_block_0_0_0.blk(N=N_snr, EsN0min=EsN0min, EsN0max=EsN0max, Sps=Sps, Rs=Rs)
+        self.epy_block_0_0 = epy_block_0_0.blk(N=N_snr, EsN0min=EsN0min, EsN0max=EsN0max, Sps=Sps, Rs=Rs)
+        self.epy_block_0 = epy_block_0.blk(N=N_snr, EsN0min=EsN0min, EsN0max=EsN0max, Sps=Sps, Rs=Rs)
         self.digital_constellation_decoder_cb_0_1 = digital.constellation_decoder_cb(MiconstellationObject1)
         self.digital_constellation_decoder_cb_0_0_0 = digital.constellation_decoder_cb(MiconstellationObject0)
         self.digital_constellation_decoder_cb_0_0 = digital.constellation_decoder_cb(MiconstellationObject2)
@@ -173,30 +185,26 @@ class ser_simulation(gr.top_block, Qt.QWidget):
         self.digital_chunks_to_symbols_xx_0_0 = digital.chunks_to_symbols_bc(const1, 1)
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(const3, 1)
         self.digital_chunks_to_symbols_xx = digital.chunks_to_symbols_bc(const2, 1)
-        self.b_BERTool_0_1 = b_BERTool(
-            EsN0max=EsN0max,
-            EsN0min=EsN0min,
-            N_snr=N_snr,
-            Rs=Rs,
-        )
-        self.b_BERTool_0_0_0 = b_BERTool(
-            EsN0max=EsN0max,
-            EsN0min=EsN0min,
-            N_snr=N_snr,
-            Rs=Rs,
-        )
-        self.b_BERTool_0_0 = b_BERTool(
-            EsN0max=EsN0max,
-            EsN0min=EsN0min,
-            N_snr=N_snr,
-            Rs=Rs,
-        )
-        self.b_BERTool_0 = b_BERTool(
-            EsN0max=EsN0max,
-            EsN0min=EsN0min,
-            N_snr=N_snr,
-            Rs=Rs,
-        )
+        self.blocks_vector_to_stream_0_2 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, N_snr)
+        self.blocks_vector_to_stream_0_1 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, N_snr)
+        self.blocks_vector_to_stream_0_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, N_snr)
+        self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, N_snr)
+        self.blocks_stream_to_vector_0_1_1_2 = blocks.stream_to_vector(gr.sizeof_char*1, N_snr)
+        self.blocks_stream_to_vector_0_1_1_1 = blocks.stream_to_vector(gr.sizeof_char*1, N_snr)
+        self.blocks_stream_to_vector_0_1_1_0 = blocks.stream_to_vector(gr.sizeof_char*1, N_snr)
+        self.blocks_stream_to_vector_0_1_1 = blocks.stream_to_vector(gr.sizeof_char*1, N_snr)
+        self.blocks_stream_to_vector_0_1_0_2 = blocks.stream_to_vector(gr.sizeof_char*1, N_snr)
+        self.blocks_stream_to_vector_0_1_0_1 = blocks.stream_to_vector(gr.sizeof_char*1, N_snr)
+        self.blocks_stream_to_vector_0_1_0_0 = blocks.stream_to_vector(gr.sizeof_char*1, N_snr)
+        self.blocks_stream_to_vector_0_1_0 = blocks.stream_to_vector(gr.sizeof_char*1, N_snr)
+        self.blocks_stream_to_vector_0_1 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, N_snr)
+        self.blocks_stream_to_vector_0_0_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, N_snr)
+        self.blocks_stream_to_vector_0_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, N_snr)
+        self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, N_snr)
+        self.blocks_nlog10_ff_0_2 = blocks.nlog10_ff(1, N_snr, 0)
+        self.blocks_nlog10_ff_0_1 = blocks.nlog10_ff(1, N_snr, 0)
+        self.blocks_nlog10_ff_0_0 = blocks.nlog10_ff(1, N_snr, 0)
+        self.blocks_nlog10_ff_0 = blocks.nlog10_ff(1, N_snr, 0)
         self.analog_random_source_x_1 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, M0, 10000000))), True)
         self.analog_random_source_x_0_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, M1, 10000000))), True)
         self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, M3, 10000000))), True)
@@ -207,30 +215,50 @@ class ser_simulation(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_random_source_x, 0), (self.b_BERTool_0_0, 2))
+        self.connect((self.analog_random_source_x, 0), (self.blocks_stream_to_vector_0_1_1_1, 0))
         self.connect((self.analog_random_source_x, 0), (self.digital_chunks_to_symbols_xx, 0))
-        self.connect((self.analog_random_source_x_0, 0), (self.b_BERTool_0, 1))
+        self.connect((self.analog_random_source_x_0, 0), (self.blocks_stream_to_vector_0_1_1_2, 0))
         self.connect((self.analog_random_source_x_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
-        self.connect((self.analog_random_source_x_0_0, 0), (self.b_BERTool_0_1, 2))
+        self.connect((self.analog_random_source_x_0_0, 0), (self.blocks_stream_to_vector_0_1_1_0, 0))
         self.connect((self.analog_random_source_x_0_0, 0), (self.digital_chunks_to_symbols_xx_0_0, 0))
-        self.connect((self.analog_random_source_x_1, 0), (self.b_BERTool_0_0_0, 2))
+        self.connect((self.analog_random_source_x_1, 0), (self.blocks_stream_to_vector_0_1_1, 0))
         self.connect((self.analog_random_source_x_1, 0), (self.digital_chunks_to_symbols_xx_1, 0))
-        self.connect((self.b_BERTool_0, 0), (self.digital_constellation_decoder_cb_0, 0))
-        self.connect((self.b_BERTool_0, 1), (self.qtgui_vector_sink_f_0, 3))
-        self.connect((self.b_BERTool_0_0, 0), (self.digital_constellation_decoder_cb_0_0, 0))
-        self.connect((self.b_BERTool_0_0, 1), (self.qtgui_vector_sink_f_0, 2))
-        self.connect((self.b_BERTool_0_0_0, 0), (self.digital_constellation_decoder_cb_0_0_0, 0))
-        self.connect((self.b_BERTool_0_0_0, 1), (self.qtgui_vector_sink_f_0, 0))
-        self.connect((self.b_BERTool_0_1, 0), (self.digital_constellation_decoder_cb_0_1, 0))
-        self.connect((self.b_BERTool_0_1, 1), (self.qtgui_vector_sink_f_0, 1))
-        self.connect((self.digital_chunks_to_symbols_xx, 0), (self.b_BERTool_0_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.b_BERTool_0, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.b_BERTool_0_1, 0))
-        self.connect((self.digital_chunks_to_symbols_xx_1, 0), (self.b_BERTool_0_0_0, 0))
-        self.connect((self.digital_constellation_decoder_cb_0, 0), (self.b_BERTool_0, 2))
-        self.connect((self.digital_constellation_decoder_cb_0_0, 0), (self.b_BERTool_0_0, 1))
-        self.connect((self.digital_constellation_decoder_cb_0_0_0, 0), (self.b_BERTool_0_0_0, 1))
-        self.connect((self.digital_constellation_decoder_cb_0_1, 0), (self.b_BERTool_0_1, 1))
+        self.connect((self.blocks_nlog10_ff_0, 0), (self.qtgui_vector_sink_f_0, 0))
+        self.connect((self.blocks_nlog10_ff_0_0, 0), (self.qtgui_vector_sink_f_0, 1))
+        self.connect((self.blocks_nlog10_ff_0_1, 0), (self.qtgui_vector_sink_f_0, 2))
+        self.connect((self.blocks_nlog10_ff_0_2, 0), (self.qtgui_vector_sink_f_0, 3))
+        self.connect((self.blocks_stream_to_vector_0, 0), (self.epy_block_0, 0))
+        self.connect((self.blocks_stream_to_vector_0_0, 0), (self.epy_block_0_0, 0))
+        self.connect((self.blocks_stream_to_vector_0_0_0, 0), (self.epy_block_0_0_0_0, 0))
+        self.connect((self.blocks_stream_to_vector_0_1, 0), (self.epy_block_0_0_0, 0))
+        self.connect((self.blocks_stream_to_vector_0_1_0, 0), (self.epy_block_1_3, 1))
+        self.connect((self.blocks_stream_to_vector_0_1_0_0, 0), (self.epy_block_1_3_0, 1))
+        self.connect((self.blocks_stream_to_vector_0_1_0_1, 0), (self.epy_block_1_3_1, 1))
+        self.connect((self.blocks_stream_to_vector_0_1_0_2, 0), (self.epy_block_1_3_0_0, 1))
+        self.connect((self.blocks_stream_to_vector_0_1_1, 0), (self.epy_block_1_3, 0))
+        self.connect((self.blocks_stream_to_vector_0_1_1_0, 0), (self.epy_block_1_3_0, 0))
+        self.connect((self.blocks_stream_to_vector_0_1_1_1, 0), (self.epy_block_1_3_1, 0))
+        self.connect((self.blocks_stream_to_vector_0_1_1_2, 0), (self.epy_block_1_3_0_0, 0))
+        self.connect((self.blocks_vector_to_stream_0, 0), (self.digital_constellation_decoder_cb_0_0_0, 0))
+        self.connect((self.blocks_vector_to_stream_0_0, 0), (self.digital_constellation_decoder_cb_0_1, 0))
+        self.connect((self.blocks_vector_to_stream_0_1, 0), (self.digital_constellation_decoder_cb_0_0, 0))
+        self.connect((self.blocks_vector_to_stream_0_2, 0), (self.digital_constellation_decoder_cb_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx, 0), (self.blocks_stream_to_vector_0_1, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.blocks_stream_to_vector_0_0_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_0_0, 0), (self.blocks_stream_to_vector_0_0, 0))
+        self.connect((self.digital_chunks_to_symbols_xx_1, 0), (self.blocks_stream_to_vector_0, 0))
+        self.connect((self.digital_constellation_decoder_cb_0, 0), (self.blocks_stream_to_vector_0_1_0_2, 0))
+        self.connect((self.digital_constellation_decoder_cb_0_0, 0), (self.blocks_stream_to_vector_0_1_0_1, 0))
+        self.connect((self.digital_constellation_decoder_cb_0_0_0, 0), (self.blocks_stream_to_vector_0_1_0, 0))
+        self.connect((self.digital_constellation_decoder_cb_0_1, 0), (self.blocks_stream_to_vector_0_1_0_0, 0))
+        self.connect((self.epy_block_0, 0), (self.blocks_vector_to_stream_0, 0))
+        self.connect((self.epy_block_0_0, 0), (self.blocks_vector_to_stream_0_0, 0))
+        self.connect((self.epy_block_0_0_0, 0), (self.blocks_vector_to_stream_0_1, 0))
+        self.connect((self.epy_block_0_0_0_0, 0), (self.blocks_vector_to_stream_0_2, 0))
+        self.connect((self.epy_block_1_3, 0), (self.blocks_nlog10_ff_0, 0))
+        self.connect((self.epy_block_1_3_0, 0), (self.blocks_nlog10_ff_0_0, 0))
+        self.connect((self.epy_block_1_3_0_0, 0), (self.blocks_nlog10_ff_0_2, 0))
+        self.connect((self.epy_block_1_3_1, 0), (self.blocks_nlog10_ff_0_1, 0))
 
 
     def closeEvent(self, event):
@@ -325,20 +353,12 @@ class ser_simulation(gr.top_block, Qt.QWidget):
 
     def set_Rs(self, Rs):
         self.Rs = Rs
-        self.b_BERTool_0.set_Rs(self.Rs)
-        self.b_BERTool_0_0.set_Rs(self.Rs)
-        self.b_BERTool_0_0_0.set_Rs(self.Rs)
-        self.b_BERTool_0_1.set_Rs(self.Rs)
 
     def get_N_snr(self):
         return self.N_snr
 
     def set_N_snr(self, N_snr):
         self.N_snr = N_snr
-        self.b_BERTool_0.set_N_snr(self.N_snr)
-        self.b_BERTool_0_0.set_N_snr(self.N_snr)
-        self.b_BERTool_0_0_0.set_N_snr(self.N_snr)
-        self.b_BERTool_0_1.set_N_snr(self.N_snr)
         self.qtgui_vector_sink_f_0.set_x_axis(self.EsN0min, (self.EsN0max-self.EsN0min)/float(self.N_snr))
 
     def get_MiconstellationObject3(self):
@@ -382,10 +402,6 @@ class ser_simulation(gr.top_block, Qt.QWidget):
 
     def set_EsN0min(self, EsN0min):
         self.EsN0min = EsN0min
-        self.b_BERTool_0.set_EsN0min(self.EsN0min)
-        self.b_BERTool_0_0.set_EsN0min(self.EsN0min)
-        self.b_BERTool_0_0_0.set_EsN0min(self.EsN0min)
-        self.b_BERTool_0_1.set_EsN0min(self.EsN0min)
         self.qtgui_vector_sink_f_0.set_x_axis(self.EsN0min, (self.EsN0max-self.EsN0min)/float(self.N_snr))
 
     def get_EsN0max(self):
@@ -393,10 +409,6 @@ class ser_simulation(gr.top_block, Qt.QWidget):
 
     def set_EsN0max(self, EsN0max):
         self.EsN0max = EsN0max
-        self.b_BERTool_0.set_EsN0max(self.EsN0max)
-        self.b_BERTool_0_0.set_EsN0max(self.EsN0max)
-        self.b_BERTool_0_0_0.set_EsN0max(self.EsN0max)
-        self.b_BERTool_0_1.set_EsN0max(self.EsN0max)
         self.qtgui_vector_sink_f_0.set_x_axis(self.EsN0min, (self.EsN0max-self.EsN0min)/float(self.N_snr))
 
 

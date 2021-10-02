@@ -1,0 +1,660 @@
+options:
+  parameters:
+    author: Homero Ortega Boada
+    catch_exceptions: 'True'
+    category: Custom
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: Dale un valor a Es/No, corre el flujograma y obten la SER. Puedes
+      sacar tantos valores como para construir una curva de SER
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: ser_simulation
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: run_stop
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: SER Simulation
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 0]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: EsN0max
+  id: variable
+  parameters:
+    comment: ''
+    value: '35'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [794, 246]
+    rotation: 0
+    state: enabled
+- name: EsN0min
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [794, 182]
+    rotation: 0
+    state: enabled
+- name: M0
+  id: variable
+  parameters:
+    comment: ''
+    value: len(const0)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 4]
+    rotation: 0
+    state: enabled
+- name: MaxCount
+  id: variable
+  parameters:
+    comment: ''
+    value: int(1e7)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [794, 310]
+    rotation: 0
+    state: enabled
+- name: MaxErrors
+  id: variable
+  parameters:
+    comment: ''
+    value: '1000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [794, 374]
+    rotation: 0
+    state: enabled
+- name: MiconstellationObject0
+  id: variable_constellation
+  parameters:
+    comment: ''
+    const_points: const0
+    dims: '1'
+    normalization: digital.constellation.AMPLITUDE_NORMALIZATION
+    precision: '8'
+    rot_sym: '4'
+    soft_dec_lut: None
+    sym_map: mapa
+    type: calcdist
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 4]
+    rotation: 0
+    state: enabled
+- name: N_snr
+  id: variable
+  parameters:
+    comment: ''
+    value: '32'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [802, 118]
+    rotation: 0
+    state: enabled
+- name: Rs
+  id: variable
+  parameters:
+    comment: ''
+    value: samp_rate/Sps
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [794, 54]
+    rotation: 0
+    state: enabled
+- name: Sps
+  id: variable
+  parameters:
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 68]
+    rotation: 0
+    state: enabled
+- name: const0
+  id: variable
+  parameters:
+    comment: ''
+    value: digital.constellation_bpsk().points()
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [424, 4]
+    rotation: 0
+    state: enabled
+- name: mapa
+  id: variable
+  parameters:
+    comment: ''
+    value: np.arange(M0)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [885, 8]
+    rotation: 0
+    state: enabled
+- name: run_stop
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': 'False'
+    gui_hint: 0,0,1,1
+    label: Inicial/Parar
+    'true': 'True'
+    type: int
+    value: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [592, 4]
+    rotation: 180
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 100e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [424, 68]
+    rotation: 0
+    state: enabled
+- name: analog_random_source_x_1
+  id: analog_random_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    max: M0
+    maxoutbuf: '0'
+    min: '0'
+    minoutbuf: '0'
+    num_samps: '10000000'
+    repeat: 'True'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [-11, 136]
+    rotation: 0
+    state: enabled
+- name: blocks_nlog10_ff_0
+  id: blocks_nlog10_ff
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n: '1'
+    vlen: N_snr
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [493, 589]
+    rotation: 0
+    state: enabled
+- name: blocks_null_sink_0
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [17, 426]
+    rotation: 180
+    state: true
+- name: blocks_stream_to_vector_0
+  id: blocks_stream_to_vector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: N_snr
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [543, 166]
+    rotation: 0
+    state: true
+- name: blocks_stream_to_vector_0_1
+  id: blocks_stream_to_vector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: N_snr
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [190, 575]
+    rotation: 0
+    state: true
+- name: blocks_stream_to_vector_0_1_0
+  id: blocks_stream_to_vector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: N_snr
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [188, 640]
+    rotation: 0
+    state: true
+- name: blocks_vector_to_stream_0
+  id: blocks_vector_to_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: N_snr
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [530, 439]
+    rotation: 180
+    state: true
+- name: digital_chunks_to_symbols_xx_1
+  id: digital_chunks_to_symbols_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dimension: '1'
+    in_type: byte
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    out_type: complex
+    symbol_table: const0
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [315, 165]
+    rotation: 0
+    state: enabled
+- name: digital_constellation_decoder_cb_0_0_0
+  id: digital_constellation_decoder_cb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation: MiconstellationObject0
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [274, 430]
+    rotation: 180
+    state: enabled
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    EsN0max: EsN0max
+    EsN0min: EsN0min
+    N: N_snr
+    Rs: Rs
+    Sps: Sps
+    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
+      \ GRC will instantiate the first class it finds\nto get ports and parameters\
+      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
+      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
+      import math\nfrom gnuradio import gr\n\n\nclass blk(gr.sync_block):  # other\
+      \ base classes are basic_block, decim_block, interp_block\n    \"\"\"\nEs un\
+      \ canal AWGN (Additive White Gaussian Noise, en banda base), con entrada vectorial.\
+      \ Recibe la envolvente compleja de una senal con modulacion digital. Entrega\
+      \ la misma senal recibida pero con ruido blanco gausiano aditivo con diferentes\
+      \ valores de potencia que corresponden a N diferentes valores de Es/No entre\
+      \ EsNOmin y EsN0max (valores dados en dB). Este bloque se diferencia de otros\
+      \ bloques tradicionales de canal AWGN en lo siguiente: Tiene internamente una\
+      \ funcion que mide la potencia promedio de la senal entrante Ps, de modo que\
+      \ puede calcular Es=Ps/Rs; de esa manera puede N valores de potencia Pn para\
+      \ el ruido Pn para lograr los N valores de la relacion Es/No. Con esto ha completado\
+      \ el primer ensayo para que otro sea el bloque que calcule la Curva de SER.\
+      \ Pero alli no para, sino que sigue realizando tantos ensayos como lo permita\
+      \ el tiempo de simulacion, para que el bloque que calcula la Curva de BER la\
+      \ pueda ir perfeccionando cada vez mas.\n\nDatos de configuracion del bloque:\n\
+      N: Es la longitud del vector y coincide con el numero de puntos discretos que\
+      \ va a tener la curva de BER. Tambien corresponde al numero de valores que tomar\xE1\
+      \ la relacion Es/No\nEsN0min: El minimo valor a tener en cuenta para Es/No\n\
+      EsN0max: El maximo valor a tener en cuenta para Es/No\nRs: es la rata de simbolos.\n\
+      Sps: El numero de muestras por simbolo. Usualmente es 1, pero pueden darse excepciones.\
+      \ \nEs: es la energia de un simbolo\n\nAlgunas variables internas son:\nNo:\
+      \ es la Densidad espectral del potencia del ruido blanco.\nSNR: es la relacion\
+      \ senal a ruido\n\"\"\"\n\n\n    def __init__(self, N=32, EsN0min=0, EsN0max=16,Sps=1,Rs=1):\
+      \  # only default arguments here\n        \"\"\" \"\"\"\n        gr.sync_block.__init__(\n\
+      \            self,\n            name='e_SER_Channel',   # will show up in GRC\n\
+      \            in_sig=[(np.complex64,N)],\n            out_sig=[(np.complex64,N)]\n\
+      \        )\n        samp_rate=Rs*Sps\n        EsN0dB=np.linspace(EsN0min,EsN0max,N)\n\
+      \        EsN0=pow(10.,EsN0dB/10.) \n        self.SNR=EsN0*Rs/samp_rate\n   \
+      \     \n        \n    def work(self, input_items, output_items):\n        L=len(input_items[0])\
+      \ # la entrada en una matrix de L filas y N columnas\n        SNR_matrix=np.array([self.SNR]*L)\
+      \ # convertimos SNR a matrix\n        P_s=np.mean(np.absolute(input_items[0])**2)\
+      \  # La potencia de la senal\n        P_n = P_s/SNR_matrix                 \
+      \   # la potencia del ruido\n        output_items[0][:] = input_items[0]+noise_c(np.sqrt(P_n))\n\
+      \        #output_items[0][:] = input_items[0]*1.5\n        return len(output_items[0])\n\
+      \        \ndef noise_c(Vrms):\n    # random.normal() pide la desviacion standard\
+      \ pero es el mismo Valor RMS\n    # Vrms es el Valor RMS de la Envolvente compleja\
+      \ del ruido, pero la vamos\n    # a generar como un ruido real mas un ruido\
+      \ imaginario. Pero esas dos\n    # senales tienen un valor RMS un tanto diferente:\
+      \ Vrms_q=Vrms/math.sqrt(2.)\n    Vrms_q= Vrms/math.sqrt(2.)\n    n= np.random.normal(0.,Vrms_q)+np.random.normal(0.,Vrms_q)*1.j\n\
+      \    return n \n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: "('e_SER_Channel', 'blk', [('N', '32'), ('EsN0min', '0'), ('EsN0max',\
+      \ '16'), ('Sps', '1'), ('Rs', '1')], [('0', 'complex', 32)], [('0', 'complex',\
+      \ 32)], '\\nEs un canal AWGN (Additive White Gaussian Noise, en banda base),\
+      \ con entrada vectorial. Recibe la envolvente compleja de una senal con modulacion\
+      \ digital. Entrega la misma senal recibida pero con ruido blanco gausiano aditivo\
+      \ con diferentes valores de potencia que corresponden a N diferentes valores\
+      \ de Es/No entre EsNOmin y EsN0max (valores dados en dB). Este bloque se diferencia\
+      \ de otros bloques tradicionales de canal AWGN en lo siguiente: Tiene internamente\
+      \ una funcion que mide la potencia promedio de la senal entrante Ps, de modo\
+      \ que puede calcular Es=Ps/Rs; de esa manera puede N valores de potencia Pn\
+      \ para el ruido Pn para lograr los N valores de la relacion Es/No. Con esto\
+      \ ha completado el primer ensayo para que otro sea el bloque que calcule la\
+      \ Curva de SER. Pero alli no para, sino que sigue realizando tantos ensayos\
+      \ como lo permita el tiempo de simulacion, para que el bloque que calcula la\
+      \ Curva de BER la pueda ir perfeccionando cada vez mas.\\n\\nDatos de configuracion\
+      \ del bloque:\\nN: Es la longitud del vector y coincide con el numero de puntos\
+      \ discretos que va a tener la curva de BER. Tambien corresponde al numero de\
+      \ valores que tomar\xE1 la relacion Es/No\\nEsN0min: El minimo valor a tener\
+      \ en cuenta para Es/No\\nEsN0max: El maximo valor a tener en cuenta para Es/No\\\
+      nRs: es la rata de simbolos.\\nSps: El numero de muestras por simbolo. Usualmente\
+      \ es 1, pero pueden darse excepciones. \\nEs: es la energia de un simbolo\\\
+      n\\nAlgunas variables internas son:\\nNo: es la Densidad espectral del potencia\
+      \ del ruido blanco.\\nSNR: es la relacion senal a ruido\\n', [])"
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [653, 245]
+    rotation: 270
+    state: true
+- name: epy_block_1
+  id: epy_block
+  parameters:
+    N: '32'
+    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
+      \ GRC will instantiate the first class it finds\nto get ports and parameters\
+      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
+      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
+      from gnuradio import gr\n\n\nclass blk(gr.sync_block):  # other base classes\
+      \ are basic_block, decim_block, interp_block\n    \"\"\"sss\"\"\"\n\n    def\
+      \ __init__(self, N=32):  # only default arguments here\n        \"\"\" \"\"\"\
+      \n        gr.sync_block.__init__(\n            self,\n            name='e_SERtool',\
+      \   # will show up in GRC\n            in_sig=[(np.int8,N),(np.int8,N)],\n \
+      \           out_sig=[(np.float32,N)]\n        )\n        self.N=N\n        self.errores\
+      \ = np.float64(np.zeros(self.N)) # N contadores de errores.\n        self.count=1\
+      \ # contador de curvas procesadas\n        # self.SER=np.ones(self.N) #N puntos\
+      \ de la ultima curva calculada\n\n\n    def work(self, input_items, output_items):\n\
+      \        in0=input_items[0]\n        in1=input_items[1]\n        L=len(in0)\
+      \ # numero de vectores  de N elementos\n        errores_matrix = self.errores+(in0!=in1).astype(int)\n\
+      \        SER = errores_matrix/self.count # count no esta subiendo de 1 en 1,\
+      \ sino de L en L pero el ojo no va a notar los saltos.\n        self.count +=L\n\
+      \        self.errores=errores_matrix[L-1]\n        output_items[0][:]=SER\n\
+      \        #output_items[0][:]=np.log10(SER)\n        return len(output_items[0])\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('e_SERtool', 'blk', [('N', '32')], [('0', 'byte', 32), ('1', 'byte',
+      32)], [('0', 'float', 32)], 'sss', ['N'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [386, 593]
+    rotation: 0
+    state: true
+- name: import
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import math
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [786, 6]
+    rotation: 0
+    state: enabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import numpy as np
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [884, 74]
+    rotation: 0
+    state: enabled
+- name: qtgui_vector_sink_f_0
+  id: qtgui_vector_sink_f
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '1.0'
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    grid: 'False'
+    gui_hint: 2,0,1,1
+    label1: '"BPSK"'
+    label10: ''
+    label2: '"QPSK"'
+    label3: 8PSK
+    label4: '"16QAM"'
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"Curva de BER"'
+    nconnections: '1'
+    ref_level: '0'
+    showports: 'True'
+    update_time: '0.10'
+    vlen: N_snr
+    width1: '4'
+    width10: '1'
+    width2: '4'
+    width3: '4'
+    width4: '4'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    x_axis_label: '"Es/N0 [dB]"'
+    x_start: EsN0min
+    x_step: (EsN0max-EsN0min)/float(N_snr)
+    x_units: '"dB"'
+    y_axis_label: '"logPe"'
+    y_units: '""'
+    ymax: '0'
+    ymin: '-8'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [644, 541]
+    rotation: 0
+    state: enabled
+- name: virtual_source_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: TX0
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [36, 555]
+    rotation: 0
+    state: true
+- name: virtual_source_0_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: RX0
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [28, 653]
+    rotation: 0
+    state: true
+- name: vs0_1
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: TX0
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 254]
+    rotation: 270
+    state: enabled
+- name: vs1_0_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: RX0
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [107, 289]
+    rotation: 90
+    state: enabled
+
+connections:
+- [analog_random_source_x_1, '0', digital_chunks_to_symbols_xx_1, '0']
+- [analog_random_source_x_1, '0', vs0_1, '0']
+- [blocks_nlog10_ff_0, '0', qtgui_vector_sink_f_0, '0']
+- [blocks_stream_to_vector_0, '0', epy_block_0, '0']
+- [blocks_stream_to_vector_0_1, '0', epy_block_1, '0']
+- [blocks_stream_to_vector_0_1_0, '0', epy_block_1, '1']
+- [blocks_vector_to_stream_0, '0', digital_constellation_decoder_cb_0_0_0, '0']
+- [digital_chunks_to_symbols_xx_1, '0', blocks_stream_to_vector_0, '0']
+- [digital_constellation_decoder_cb_0_0_0, '0', blocks_null_sink_0, '0']
+- [digital_constellation_decoder_cb_0_0_0, '0', vs1_0_0, '0']
+- [epy_block_0, '0', blocks_vector_to_stream_0, '0']
+- [epy_block_1, '0', blocks_nlog10_ff_0, '0']
+- [virtual_source_0, '0', blocks_stream_to_vector_0_1, '0']
+- [virtual_source_0_0, '0', blocks_stream_to_vector_0_1_0, '0']
+
+metadata:
+  file_format: 1
